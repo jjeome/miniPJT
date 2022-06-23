@@ -9,9 +9,9 @@ import common.DAO;
 
 public class WatchSaveDAO extends DAO{
 	//싱글톤
-	private WatchSaveDAO watchsaveDAO = null;
+	private static WatchSaveDAO watchsaveDAO = null;
 	private WatchSaveDAO() {}
-	private WatchSaveDAO getInstance() {
+	public static WatchSaveDAO getInstance() {
 		if(watchsaveDAO == null) {
 			watchsaveDAO = new WatchSaveDAO();
 		}

@@ -24,7 +24,7 @@ public class MemberDAO extends DAO {
 			String sql = "INSERT INTO members (member_id, member_pwd) VALUES( ?, ?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, member.getMemberId());
-			pstmt.setInt(2, member.getMemberPwd());
+			pstmt.setString(2, member.getMemberPwd());
 			
 			int result = pstmt.executeUpdate();
 			
@@ -55,7 +55,7 @@ public class MemberDAO extends DAO {
 			if(rs.getString("member_pwd").equals(member.getMemberPwd())) {
 				loginInfo = new Member();
 				loginInfo.setMemberId(rs.getString("member_id"));
-				loginInfo.setMemberPwd(rs.getInt("member_pwd"));
+				loginInfo.setMemberPwd(rs.getString("member_pwd"));
 				loginInfo.setMemberRole(rs.getInt("member_role"));
 		
 			} else {
