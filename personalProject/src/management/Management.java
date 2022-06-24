@@ -34,7 +34,7 @@ public class Management {
 		}
 	}
 
-	private void showInputError() {
+	protected void showInputError() {
 		System.out.println("메뉴에서 입력해주시기 바랍니다.");
 	}
 
@@ -42,14 +42,13 @@ public class Management {
 		System.out.println("프로그램을 종료합니다.");
 	}
 
-	private int menuSelect() {
+	protected int menuSelect() {
 		int menuNo = 0;
 		try {
 			 menuNo = Integer.parseInt(sc.nextLine());
 		} catch (NumberFormatException e) {
 			System.out.println("숫자를 입력해주시기 바랍니다.");
 		}
-		
 		return menuNo;
 	}
 

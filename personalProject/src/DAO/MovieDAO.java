@@ -22,8 +22,8 @@ public class MovieDAO extends DAO {
 	public void insert(Movie movie) {
 		try {
 			connect();
-			String sql = "INSERT INTO movie (movie_no, movie_name, movie_date, movie_genre, movie_nation, movie_keyword)"
-						+ " VALUES(movie_seq.nextval, ?, ?, ? ,? ,?)";
+			String sql = "INSERT INTO movies (movie_no, movie_name, movie_date, movie_genre, movie_nation, movie_keyword)"
+						+ " VALUES(seq_movie_no.nextval, ?, ?, ? ,? ,?)";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, movie.getMovieName());
@@ -69,16 +69,72 @@ public class MovieDAO extends DAO {
 		}
 	}
 	
+	//카테고리별검색
+	public List<Movie> serchCategoryInfo(String movieGenre) {
+		List<Movie> list = new ArrayList<>();
+		try {
+			connect();
+			String sql = "SELECT movie_name, TO_CHAR(movie_date,YYYY-MM-DD), movie_genre, movie_nation, movie_keyword FROM movies WHERE movie_genre LIKE '%"+movieGenre+"%'";
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql);
+			
+			while(rs.next()) {
+				Movie movie = new Movie();
+				movie.setMovieName(rs.getString("movie_name"));
+				movie.setMovieDate(rs.getString("movie_date"));
+				movie.setMovieGenre(rs.getString("movie_genre"));
+				movie.setMovieNation(rs.getString("movie_nation"));
+				movie.setMovieKeyword(rs.getString("movie_keyword"));
+				
+				list.add(movie);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+		return list;
+	}
+	
+	//국가별 검색
+	public List<Movie> serchNationInfo(String movieNation) {
+		List<Movie> list = new ArrayList<>();
+		try {
+			connect();
+			String sql = "SELECT movie_name, TO_CHAR(movie_date,YYYY-MM-DD), movie_genre, movie_nation, movie_keyword FROM movies WHERE movie_nation LIKE '%"+movieNation+"%'";
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql);
+			
+			while(rs.next()) {
+				Movie movie = new Movie();
+				movie.setMovieName(rs.getString("movie_name"));
+				movie.setMovieDate(rs.getString("movie_date"));
+				movie.setMovieGenre(rs.getString("movie_genre"));
+				movie.setMovieNation(rs.getString("movie_nation"));
+				movie.setMovieKeyword(rs.getString("movie_keyword"));
+				
+				list.add(movie);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+		return list;
+	}
+	
 	
 	//삭제
 	public void delete(String movieName) {
 		try {
 			connect();
-			String sql = "DELETE FROM movies WHERE movie_name = "+movieName;
+			String sql = "DELETE FROM movies WHERE movie_name = '"+movieName +"'";
 			stmt = conn.createStatement();
 			int result = stmt.executeUpdate(sql);
 			if(result > 0) {
-				System.out.println(movieName+"이 삭제되었습니다.");
+				System.out.println(movieName+"이/가 삭제되었습니다.");
 			} else {
 				System.out.println("다시 삭제해주십시오.");
 			}
@@ -94,11 +150,9 @@ public class MovieDAO extends DAO {
 		Movie movie = null;
 		try {
 			connect();
-			String sql = "SELECT * FROM movies WHERE movie_name = ?";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, movieName);
-			
-			rs = pstmt.executeQuery();
+			String sql = "SELECT * FROM movies WHERE movie_name = '"+movieName +"'";
+			stmt = conn.createStatement();
+			rs=stmt.executeQuery(sql);
 			
 			if(rs.next()) {
 				movie = new Movie();
@@ -107,7 +161,6 @@ public class MovieDAO extends DAO {
 				movie.setMovieGenre(rs.getString("movie_genre"));
 				movie.setMovieNation(rs.getString("movie_nation"));
 				movie.setMovieKeyword(rs.getString("movie_keyword"));
-
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -117,12 +170,35 @@ public class MovieDAO extends DAO {
 		return movie;
 	}
 	
+	//단건조회 - 이름존재 유무
+	public boolean checkName(String movieName) {
+		boolean isSelected = false;
+		try {
+			connect();
+			String sql = "SELECT COUNT(*) AS count FROM movies WHERE movie_name = '"+movieName +"'";
+			stmt = conn.createStatement();
+			rs=stmt.executeQuery(sql);
+			
+			if(rs.next()) {
+				if(rs.getInt("count")>0) {
+					isSelected = true;
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+ 		} finally {
+			disconnect();
+		}
+		return isSelected;
+	}
+	
+	
 	// 키워드 조회
 	public List<Movie> serchKeyword(String movieKeyword){
 		List<Movie> list = new ArrayList<>();
 		try {
 			connect();
-			String sql = "SELECT * FROM movies WHERE movie_keyword LIKE '%"+movieKeyword+"%'";
+			String sql = "SELECT movie_name, TO_CHAR(movie_date,YYYY-MM-DD), movie_genre, movie_nation, movie_keyword FROM movies WHERE movie_keyword LIKE '%"+movieKeyword+"%'";
 			
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();

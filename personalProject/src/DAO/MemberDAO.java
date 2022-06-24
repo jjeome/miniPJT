@@ -21,10 +21,10 @@ public class MemberDAO extends DAO {
 	public void insertInfo(Member member) {
 		try {
 			connect();
-			String sql = "INSERT INTO members (member_id, member_pwd) VALUES( ?, ?)";
+			String sql = "INSERT INTO members (member_id, member_password) VALUES( ?, ?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, member.getMemberId());
-			pstmt.setString(2, member.getMemberPwd());
+			pstmt.setString(2, member.getMemberPassword());
 			
 			int result = pstmt.executeUpdate();
 			
@@ -52,10 +52,10 @@ public class MemberDAO extends DAO {
 		rs = stmt.executeQuery(sql);
 		
 		if(rs.next()) {
-			if(rs.getString("member_pwd").equals(member.getMemberPwd())) {
+			if(rs.getString("member_password").equals(member.getMemberPassword())) {
 				loginInfo = new Member();
 				loginInfo.setMemberId(rs.getString("member_id"));
-				loginInfo.setMemberPwd(rs.getString("member_pwd"));
+				loginInfo.setMemberPassword(rs.getString("member_password"));
 				loginInfo.setMemberRole(rs.getInt("member_role"));
 		
 			} else {

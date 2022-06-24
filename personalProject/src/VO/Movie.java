@@ -1,5 +1,7 @@
 package VO;
 
+import java.sql.Date;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,8 +16,8 @@ public class Movie {
 
 	@Override
 	public String toString() {
-		return "Movie [movieName=" + movieName + ", movieDate=" + movieDate + ", movieGenre=" + movieGenre
-				+ ", movieNation=" + movieNation + "]";
+		return "[영화 : " + movieName + ", 개봉일 : " + movieDate + ", 영화 장르 : " + movieGenre
+				+ ", 국가 : " + movieNation + "]\n";
 	}
 	
 }

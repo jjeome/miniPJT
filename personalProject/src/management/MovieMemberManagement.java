@@ -7,6 +7,7 @@ import VO.Member;
 
 public class MovieMemberManagement extends Management{
 	protected Scanner sc = new Scanner(System.in);
+	private static Member LoginInfo = null;
 	public MovieMemberManagement() {
 		while (true) {
 			menuPrint();
@@ -34,25 +35,32 @@ public class MovieMemberManagement extends Management{
 	}
 
 	private void registerIn() {
-		Member member = inputInfo();
+		Member member = inputMember();
 		//회원 가입 입력
 		memberDAO.insertInfo(member);
 	}
 
-	private Member inputInfo() {
+	private Member inputMember() {
 		Member member = new Member();
 		System.out.println("회원가입을 시작합니다.");
 		System.out.println("ID를 입력하세요 : ");
 		member.setMemberId(sc.nextLine());
 		System.out.println("PASSWORD를 입력하세요 : ");
-		member.setMemberPwd(sc.nextLine());
+		member.setMemberPassword(sc.nextLine());
 		return member;
 	}
 
 	private void logIn() {
-		Member member= inputId();
-		memberDAO.selectOne(member);
-		
+		//아이디, 비밀번호 입력받기
+		Member inputInfo= inputId();
+		//로그인시도
+		LoginInfo = MemberDAO.getInstance().selectOne(inputInfo);
+		//실패할경우, 메소드종료
+		if(LoginInfo == null) {
+			return;
+		}
+		//성공할 경우 프로그램 실행
+		new Management().run();
 	}
 
 	private Member inputId() {
@@ -60,11 +68,11 @@ public class MovieMemberManagement extends Management{
 		System.out.println("ID : ");
 		member.setMemberId(sc.nextLine());
 		System.out.println("PASSWORD : ");
-		member.setMemberPwd(sc.nextLine());
+		member.setMemberPassword(sc.nextLine());
 		return member;
 	}
 
-	private int menuSelect() {
+	protected int menuSelect() {
 		int menuNo = 0;
 		try {
 			menuNo = Integer.parseInt(sc.nextLine());
@@ -80,7 +88,7 @@ public class MovieMemberManagement extends Management{
 		System.out.println("=============================");
 	}
 
-	private void showInputError() {
+	protected void showInputError() {
 		System.out.println("메뉴에서 입력해주시기 바랍니다.");
 	}
 }
