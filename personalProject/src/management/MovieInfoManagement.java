@@ -3,28 +3,34 @@ package management;
 import java.sql.Date;
 import java.util.Scanner;
 
+import DAO.MovieDAO;
 import VO.Movie;
 
 public class MovieInfoManagement extends Management {
 	protected Scanner sc = new Scanner(System.in);
+	private MovieDAO movieDAO = MovieDAO.getInstance();
+	private 
 	int menuNo =0;
 	public MovieInfoManagement() {
 		while (true) {
-			menuPrint();
+			boolean role = true;
+			menuPrint(role);
 			
 			menuNo = selectMenu();
-			if(menuNo==1) {
+			if(menuNo==1 && role) {
 				//영화 정보 등록
 				insertMovieInfo();
-			} else if(menuNo==2) {
+			} else if(menuNo==2 && role) {
 				//영화 정보 수정(키워드수정)
 				updateMovie();
-			} else if(menuNo==3) {
+			} else if(menuNo==3 && role) {
 				//영화 삭제
 				deleteMovie();
 			} else if(menuNo==4) {
 				//영화 조회
 				new checkMovie();
+			} else if(menuNo==5) {
+				//
 			} else if(menuNo==9) {
 				//뒤로가기
 				back();
@@ -33,6 +39,21 @@ public class MovieInfoManagement extends Management {
 				showInputError();
 			}
 		} 
+	}
+
+	public void menuPrint(boolean role) {
+		// null로 초기화 하면 null에 더해져서 출력되기때문에 빈공백으로
+		String menu = "";
+		if (role) {
+			menu += "1.영화 등록 |" + " 2.영화 수정 |" + " 3.영화 삭제 |";
+		}
+		menu += " 4.영화 조회 | "+"9.뒤로 가기 ";
+		
+		System.out.println("==========================================");
+		System.out.println(menu);
+//		System.out.println(" 1.영화 등록 | 2.영화 수정 | 3.영화 삭제 | 4.영화 조회 | 9.뒤로 가기 ");
+		System.out.println("==========================================");
+
 	}
 
 
@@ -128,9 +149,4 @@ public class MovieInfoManagement extends Management {
 		return menuNo;
 	}
 
-	private void menuPrint() {
-		System.out.println("===========================================================");
-		System.out.println(" 1.영화 등록 | 2.영화 수정 | 3.영화 삭제 | 4.영화 조회 | 9.뒤로 가기 ");
-		System.out.println("===========================================================");
-	}
 }

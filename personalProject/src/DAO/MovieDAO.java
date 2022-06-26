@@ -69,7 +69,7 @@ public class MovieDAO extends DAO {
 		}
 	}
 	
-	//카테고리별검색
+	//장르별검색
 	public List<Movie> serchCategoryInfo(String movieGenre) {
 		List<Movie> list = new ArrayList<>();
 		try {

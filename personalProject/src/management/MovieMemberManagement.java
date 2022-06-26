@@ -8,6 +8,11 @@ import VO.Member;
 public class MovieMemberManagement extends Management{
 	protected Scanner sc = new Scanner(System.in);
 	private static Member LoginInfo = null;
+	//한번 로그인을 로그인 하는동안 로그인을 유지해야함
+	public static Member getLoginInfo() {
+		return LoginInfo;
+	}
+
 	public MovieMemberManagement() {
 		while (true) {
 			menuPrint();
@@ -18,8 +23,11 @@ public class MovieMemberManagement extends Management{
 				logIn();
 			} else if (menuNo == 2) {
 				// 회원가입
-				registerIn();
+				new RegisterIn();
 			} else if (menuNo == 3) {
+				//로그아웃
+				logOut();
+			} else if (menuNo == 4) {
 				// 뒤로가기
 				back();
 				break;
@@ -30,24 +38,13 @@ public class MovieMemberManagement extends Management{
 		}
 	}
 
+	private void logOut() {
+		System.out.println("로그아웃 되었습니다.");
+		menuPrint();
+	}
+
 	private void back() {
 		System.out.println("메인으로 돌아갑니다.");
-	}
-
-	private void registerIn() {
-		Member member = inputMember();
-		//회원 가입 입력
-		memberDAO.insertInfo(member);
-	}
-
-	private Member inputMember() {
-		Member member = new Member();
-		System.out.println("회원가입을 시작합니다.");
-		System.out.println("ID를 입력하세요 : ");
-		member.setMemberId(sc.nextLine());
-		System.out.println("PASSWORD를 입력하세요 : ");
-		member.setMemberPassword(sc.nextLine());
-		return member;
 	}
 
 	private void logIn() {
@@ -60,6 +57,11 @@ public class MovieMemberManagement extends Management{
 			return;
 		}
 		//성공할 경우 프로그램 실행
+		if(LoginInfo == "1") {
+			System.out.println("관리자로 로그인 되었습니다.");
+		} else {
+			System.out.println("로그인 되었습니다.");
+		}
 		new Management().run();
 	}
 

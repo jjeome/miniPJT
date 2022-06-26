@@ -10,7 +10,9 @@ public class Member {
 	private String memberPassword;
 	private String wantMovie;
 	private String watchedMovie;
-	
+	private String managerId;
+	private String managerPassword;
+
 	//memberRole : 0-관리자, 1-일반회원
 	private int memberRole; 
 	
