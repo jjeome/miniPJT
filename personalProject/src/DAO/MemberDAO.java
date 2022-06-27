@@ -3,7 +3,6 @@ package DAO;
 import java.sql.SQLException;
 
 import VO.Member;
-import VO.Movie;
 import common.DAO;
 
 public class MemberDAO extends DAO {
@@ -21,10 +20,10 @@ public class MemberDAO extends DAO {
 	public void insertInfo(Member member) {
 		try {
 			connect();
-			String sql = "INSERT INTO members (member_id, member_password) VALUES( ?, ?)";
+			String sql = "INSERT INTO members (member_id, member_password) VALUES(?, ?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, member.getMemberId());
-			pstmt.setString(2, member.getMemberPassword());
+			pstmt.setInt(2, member.getMemberPassword());
 			
 			int result = pstmt.executeUpdate();
 			
@@ -52,10 +51,10 @@ public class MemberDAO extends DAO {
 		rs = stmt.executeQuery(sql);
 		
 		if(rs.next()) {
-			if(rs.getString("member_password").equals(member.getMemberPassword())) {
+			if(rs.getInt("member_password")==(member.getMemberPassword())) {
 				loginInfo = new Member();
 				loginInfo.setMemberId(rs.getString("member_id"));
-				loginInfo.setMemberPassword(rs.getString("member_password"));
+				loginInfo.setMemberPassword(rs.getInt("member_password"));
 				loginInfo.setMemberRole(rs.getInt("member_role"));
 		
 			} else {
@@ -71,6 +70,6 @@ public class MemberDAO extends DAO {
 			disconnect();
 		}
 		return loginInfo;
-	}	
-	
+	}
+
 }

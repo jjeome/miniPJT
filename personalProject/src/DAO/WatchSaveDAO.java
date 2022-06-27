@@ -4,6 +4,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import VO.Member;
+import VO.Movie;
 import VO.WatchSave;
 import common.DAO;
 
@@ -17,23 +19,23 @@ public class WatchSaveDAO extends DAO{
 		}
 		return watchsaveDAO;
 	}
+	
 
-	//시청했던 영화 전체조회
-	public List<WatchSave> selectWatchedMovie(){
-		List<WatchSave> list = new ArrayList<>();
+	//담은 영화 전체조회
+	public List<String> saveMovie(String memberId){
+		List<String> list = new ArrayList<>();
 		try {
 			connect();
-			String sql = "SELECT b.member_id, m.movie_name FROM members b JOIN movies m ON(b.movie_name = m.movie_name)";
-			
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery(sql);
-			
+			String sql = "SELECT movie_name FROM wanted WHERE member_id = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, memberId);
+			rs = pstmt.executeQuery();
+						
 			while(rs.next()) {
-				WatchSave ws = new WatchSave();
-				ws.setMemberId(rs.getString("member_id"));
-				ws.setMovieName(rs.getString("member_name"));
+				Movie movie = new Movie();
+				movie.setMovieName(rs.getString("movie_name"));
 				
-				list.add(ws);
+				list.add(movie.getMovieName());
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -43,22 +45,22 @@ public class WatchSaveDAO extends DAO{
 		return list;
 	}
 	
-	//보고싶은 영화 전체조회
-	public List<WatchSave> wantMovie(){
-		List<WatchSave> list = new ArrayList<>();
+	//시청 내역 조회
+	public List<String> watchedMovie(String memberId){
+		List<String> list = new ArrayList<>();
 		
 		try {
 			connect();
-			String sql = "SELECT b.member_id, m.movie_name FROM members b JOIN movies m ON (b.movie_name = m.movie_name)";
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery(sql);
+			String sql = "SELECT movie_name FROM watched WHERE member_id = ? ";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, memberId);
+			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
-				WatchSave ws = new WatchSave();
-				ws.setMemberId(rs.getString("member_id"));
-				ws.setMovieName(rs.getString("member_name"));
+				Movie movie = new Movie();
+				movie.setMovieName(rs.getString("movie_name"));
 				
-				list.add(ws);
+				list.add(movie.getMovieName());
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -68,7 +70,52 @@ public class WatchSaveDAO extends DAO{
 		return list;
 	}
 	
+	//보고싶은 영화 담기
+	public void insertWantMovie(Movie movie, Member member) {
+		try {
+			connect();
+			String sql = "INSERT INTO wanted (movie_name, member_id) VALUES (?, ?)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, movie.getMovieName());
+			pstmt.setString(2, member.getMemberId());
+			
+			int result = pstmt.executeUpdate();
+			
+			if(result>0) {
+				System.out.println("영화가 담아졌습니다.");
+			} else {
+				System.out.println("영화 담기에 실패하였습니다.");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+	}
 	
+	//시청 내역 담기
+		public void insertWatchedMovie(Movie movie, Member member) {
+			try {
+				connect();
+				String sql = "INSERT INTO watched (movie_name, member_id) VALUES (?, ?)";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, movie.getMovieName());
+				pstmt.setString(2, member.getMemberId());
+				
+				int result = pstmt.executeUpdate();
+				
+				if(result>0) {
+					System.out.println("영화 시청을 시작합니다.");
+				} else {
+					System.out.println("영화 시청에 실패했습니다.");
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				disconnect();
+			}
+		}
+
 	
 	
 	

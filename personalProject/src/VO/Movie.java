@@ -13,6 +13,7 @@ public class Movie {
 	private String movieGenre;
 	private String movieNation;
 	private String movieKeyword;
+	private int abled;
 
 	@Override
 	public String toString() {

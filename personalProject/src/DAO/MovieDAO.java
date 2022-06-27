@@ -1,3 +1,4 @@
+
 package DAO;
 
 import java.sql.SQLException;
@@ -69,17 +70,18 @@ public class MovieDAO extends DAO {
 		}
 	}
 	
-	//카테고리별검색
+	//장르별검색
 	public List<Movie> serchCategoryInfo(String movieGenre) {
 		List<Movie> list = new ArrayList<>();
 		try {
 			connect();
-			String sql = "SELECT movie_name, TO_CHAR(movie_date,YYYY-MM-DD), movie_genre, movie_nation, movie_keyword FROM movies WHERE movie_genre LIKE '%"+movieGenre+"%'";
+			String sql = "SELECT movie_name, movie_date, movie_genre, movie_nation, movie_keyword FROM movies WHERE movie_genre LIKE '%"+movieGenre+"%' AND abled = 0";
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql);
 			
 			while(rs.next()) {
 				Movie movie = new Movie();
+				
 				movie.setMovieName(rs.getString("movie_name"));
 				movie.setMovieDate(rs.getString("movie_date"));
 				movie.setMovieGenre(rs.getString("movie_genre"));
@@ -102,7 +104,7 @@ public class MovieDAO extends DAO {
 		List<Movie> list = new ArrayList<>();
 		try {
 			connect();
-			String sql = "SELECT movie_name, TO_CHAR(movie_date,YYYY-MM-DD), movie_genre, movie_nation, movie_keyword FROM movies WHERE movie_nation LIKE '%"+movieNation+"%'";
+			String sql = "SELECT movie_name, movie_date, movie_genre, movie_nation, movie_keyword FROM movies WHERE movie_nation LIKE '%"+movieNation+"%' AND abled = 0";
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql);
 			
@@ -130,9 +132,11 @@ public class MovieDAO extends DAO {
 	public void delete(String movieName) {
 		try {
 			connect();
-			String sql = "DELETE FROM movies WHERE movie_name = '"+movieName +"'";
-			stmt = conn.createStatement();
-			int result = stmt.executeUpdate(sql);
+			String sql = "UPDATE movies SET abled = 1 WHERE movie_name = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, movieName);
+			int result = pstmt.executeUpdate();
+			
 			if(result > 0) {
 				System.out.println(movieName+"이/가 삭제되었습니다.");
 			} else {
@@ -150,7 +154,7 @@ public class MovieDAO extends DAO {
 		Movie movie = null;
 		try {
 			connect();
-			String sql = "SELECT * FROM movies WHERE movie_name = '"+movieName +"'";
+			String sql = "SELECT movie_name, movie_date, movie_genre, movie_nation, movie_keyword FROM movies WHERE movie_name = '"+movieName +"' AND abled = 0";
 			stmt = conn.createStatement();
 			rs=stmt.executeQuery(sql);
 			
@@ -198,7 +202,7 @@ public class MovieDAO extends DAO {
 		List<Movie> list = new ArrayList<>();
 		try {
 			connect();
-			String sql = "SELECT movie_name, TO_CHAR(movie_date,YYYY-MM-DD), movie_genre, movie_nation, movie_keyword FROM movies WHERE movie_keyword LIKE '%"+movieKeyword+"%'";
+			String sql = "SELECT movie_name, movie_date, movie_genre, movie_nation, movie_keyword FROM movies WHERE movie_keyword LIKE '%"+movieKeyword+"%' AND abled = 0";
 			
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
@@ -226,7 +230,7 @@ public class MovieDAO extends DAO {
 		List<Movie> list = new ArrayList<>();
 		try {
 			connect();
-			String sql = "SELECT * FROM movies ORDER BY movie_no";
+			String sql = "SELECT movie_name, movie_date, movie_genre, movie_nation, movie_keyword FROM movies WHERE abled = 0 ORDER BY movie_no";
 			
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql);

@@ -7,10 +7,8 @@ import lombok.Setter;
 @Setter
 public class Member {
 	private String memberId;
-	private String memberPassword;
-	private String wantMovie;
-	private String watchedMovie;
-	
+	private int memberPassword;
+
 	//memberRole : 0-관리자, 1-일반회원
 	private int memberRole; 
 	

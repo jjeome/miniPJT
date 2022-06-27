@@ -12,7 +12,7 @@ public class Management {
 	//공유되는 테이블 2개
 	protected MovieDAO movieDAO = MovieDAO.getInstance();
 	protected MemberDAO memberDAO = MemberDAO.getInstance();
-	protected WatchSaveDAO wsDAO = WatchSaveDAO.getInstance();
+	protected WatchSaveDAO watchsaveDAO = WatchSaveDAO.getInstance();
 	
 	public void run() {
 		while(true) {
