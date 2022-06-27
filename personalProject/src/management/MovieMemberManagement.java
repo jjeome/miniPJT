@@ -7,7 +7,15 @@ import VO.Member;
 
 public class MovieMemberManagement extends Management{
 	protected Scanner sc = new Scanner(System.in);
+
 	public static Member LoginInfo = null;
+
+	//한번 로그인을 로그인 하는동안 로그인을 유지해야함
+	public static Member getLoginInfo() {
+		return LoginInfo;
+	}
+
+
 	public MovieMemberManagement() {
 		while (true) {
 			menuPrint();
@@ -48,6 +56,7 @@ public class MovieMemberManagement extends Management{
 	private void back() {
 		System.out.println("메인으로 돌아갑니다.");
 	}
+
 	private void logIn() {
 		//아이디, 비밀번호 입력받기
 		Member inputInfo= inputId();
@@ -60,8 +69,8 @@ public class MovieMemberManagement extends Management{
 		//성공할 경우 프로그램 실행
 		System.out.println("로그인 되어 영화메뉴를 실행합니다.");
 		new MovieInfoManagement();
-	}
 
+	}
 	private Member inputId() {
 		Member member = new Member();
 		System.out.println("ID : ");

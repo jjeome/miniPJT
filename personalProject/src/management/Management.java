@@ -33,6 +33,7 @@ public class Management {
 			}
 		}
 	}
+	
 
 	protected void showInputError() {
 		System.out.println("메뉴에서 입력해주시기 바랍니다.");

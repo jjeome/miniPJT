@@ -3,17 +3,21 @@ package management;
 import java.sql.Date;
 import java.util.Scanner;
 
+import DAO.MovieDAO;
 import VO.Movie;
 
 public class MovieInfoManagement extends Management {
 	protected Scanner sc = new Scanner(System.in);
 	int menuNo = 0;
 	private int role = MovieMemberManagement.LoginInfo.getMemberRole();
+
 	public MovieInfoManagement() {
 		while (true) {
+		
 			menuPrint();
 			
 			menuNo = selectMenu();
+
 			if(menuNo==1) {
 				//영화 조회
 				new checkMovie();	
@@ -38,6 +42,7 @@ public class MovieInfoManagement extends Management {
 			}
 		} 
 	}
+
 	private void deleteMovie() {
 		String movieName = inputMovieName();
 
@@ -133,9 +138,10 @@ public class MovieInfoManagement extends Management {
 	}
 
 	private void menuPrint() {
-		System.out.println("==============================================================================");
+		System.out.println("========================================");
 		System.out.println("| 1.영화 조회 | 2.영화 시청 | 3.영화 정보 등록 |");
 		System.out.println("| 4.영화 삭제 | 5.영화 정보 수정 | 9.뒤로 가기 |");
-		System.out.println("==============================================================================");
+		System.out.println("========================================");
 	}
+
 }

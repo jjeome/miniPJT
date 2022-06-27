@@ -57,13 +57,13 @@ public class SerchCategory extends Management{
 	}
 
 	private void printMenu() {
-		System.out.println("====================================");
+		System.out.println("=====================================");
 		System.out.println(" 1.장르별 검색 | 2.국가별 검색 | 3.뒤로 가기 ");
-		System.out.println("====================================");
+		System.out.println("=====================================");
 	}
 
 	private void back() {
 		System.out.println("뒤로 갑니다.");
 	}
-	
+
 }

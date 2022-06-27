@@ -40,6 +40,30 @@ public class MemberDAO extends DAO {
 		} 
 	}
 	
+	public void insertManager(Member member) {
+		try {
+			connect();
+			
+			String sql = "INSERT INTO members (manager_id, manager_password) VALUES(?, ?)";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, member.getManagerId());
+			pstmt.setString(2, member.getManagerPassword());
+			
+			int result = pstmt.executeUpdate();
+			
+			if(result > 0 ) {
+				System.out.println("관리자 가입이 완료되었습니다.");
+			} else { 
+				System.out.println("관리자 가입에 실패하였습니다.");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+	}
+
 	//로그인 여부와 권한만 가지고오기
 	public Member selectOne(Member member) {
 		Member loginInfo = null;

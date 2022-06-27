@@ -84,10 +84,10 @@ public class checkMovie extends Management{
 	}
 	
 	private void printMenu() {
-		System.out.println("===============================================================");
+		System.out.println("======================================================");
 		System.out.println(" 1.영화 이름 검색 | 2. 영화 카테고리 검색 | 3. 영화 키워드 조회 ");
 		System.out.println("               | 4.영화 전체 조회 | 5. 뒤로가기           ");
-		System.out.println("===============================================================");
+		System.out.println("======================================================");
 	}
 
 }
