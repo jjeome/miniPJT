@@ -1,6 +1,8 @@
 package DAO;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import VO.Member;
 import common.DAO;
@@ -27,10 +29,14 @@ public class MemberDAO extends DAO {
 			
 			int result = pstmt.executeUpdate();
 			
-			if(result > 0) {
-				System.out.println("회원가입이 완료되었습니다.");
-			} else {
-				System.err.println("회원가입에 실패하였습니다.");
+			try {
+				if(result > 0) {
+					System.out.println("회원가입이 완료되었습니다.");
+				} else {
+					System.err.println("회원가입에 실패하였습니다.");
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		
 		} catch (SQLException e) {
@@ -38,30 +44,6 @@ public class MemberDAO extends DAO {
 		} finally {
 			disconnect();
 		} 
-	}
-	
-	public void insertManager(Member member) {
-		try {
-			connect();
-			
-			String sql = "INSERT INTO members (manager_id, manager_password) VALUES(?, ?)";
-			
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, member.getManagerId());
-			pstmt.setString(2, member.getManagerPassword());
-			
-			int result = pstmt.executeUpdate();
-			
-			if(result > 0 ) {
-				System.out.println("관리자 가입이 완료되었습니다.");
-			} else { 
-				System.out.println("관리자 가입에 실패하였습니다.");
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			disconnect();
-		}
 	}
 
 	//로그인 여부와 권한만 가지고오기
@@ -94,6 +76,31 @@ public class MemberDAO extends DAO {
 			disconnect();
 		}
 		return loginInfo;
+	}
+	
+	//회원가입시 중복 체크
+	public boolean loginReturn(Member member) {
+		boolean overlap = true;
+		try {
+			connect();
+			String sql = "SELECT member_id, member_password FROM members WHERE member_id = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, member.getMemberId());
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				if(member.getMemberId() != null) {
+					overlap = false;
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+		return overlap;
 	}
 
 }

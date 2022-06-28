@@ -34,7 +34,6 @@ public class Management {
 		}
 	}
 	
-
 	protected void showInputError() {
 		System.out.println("메뉴에서 입력해주시기 바랍니다.");
 	}
@@ -54,9 +53,11 @@ public class Management {
 	}
 
 	private void menuPrint() {
-		System.out.println("========================");
-		System.out.println(" 1.로그인 | 2.영화 | 9.종료 ");
-		System.out.println("========================");
+		System.out.println("===========================");
+		System.out.println("       MOVIE SYSTEM        ");
+		System.out.println("===========================");
+		System.out.println(" 1.회원 관리 | 2.영화 | 9.종료 ");
+		System.out.println("===========================");
 	}
 	
 	

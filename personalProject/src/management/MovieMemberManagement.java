@@ -15,7 +15,6 @@ public class MovieMemberManagement extends Management{
 		return LoginInfo;
 	}
 
-
 	public MovieMemberManagement() {
 		while (true) {
 			menuPrint();
@@ -37,26 +36,46 @@ public class MovieMemberManagement extends Management{
 			}
 		}
 	}
-
+	
+	//회원가입
 	private void registerIn() {
 		Member member = inputMember();
-		memberDAO.insertInfo(member);
+		if(memberDAO.loginReturn(member) == true) {
+			memberDAO.insertInfo(member); 			
+		} else {
+			System.out.println(" ======이미 가입된 회원입니다.======");
+			return;
+		}
 	}
 	
-	private Member inputMember() {
+	//회원가입 정보 입력 받기
+	private Member inputMember() {		
 		Member member = new Member();
-		System.out.println("회원가입을 시작합니다.");
-		System.out.println("ID를 입력하세요 : ");
-		member.setMemberId(sc.nextLine());
-		System.out.println("PASSWORD를 입력하세요 : ");
-		member.setMemberPassword(sc.nextInt());
+			System.out.println("===================");
+			System.out.println(" 회원가입을 시작합니다. ");
+			System.out.println("===================");
+			System.out.println("ID를 입력하세요 : ");
+			member.setMemberId(sc.nextLine());
+			
+		while(true) {
+			try {
+				System.out.println("======= 숫자로 =======");
+				System.out.println("PASSWORD를 입력하세요 : ");
+				member.setMemberPassword(Integer.parseInt(sc.nextLine()));
+				break;	
+			} catch (NumberFormatException e) {
+				System.out.println("숫자형태로 다시 입력해 주십시오 : ");
+				continue;
+			}
+		
+		}
 		return member;
 	}
-
 	private void back() {
-		System.out.println("메인으로 돌아갑니다.");
+		System.out.println("======메인으로 돌아갑니다.======");
 	}
 
+	//로그인
 	private void logIn() {
 		//아이디, 비밀번호 입력받기
 		Member inputInfo= inputId();
@@ -65,21 +84,33 @@ public class MovieMemberManagement extends Management{
 		//실패할경우, 메소드종료
 		if(LoginInfo == null) {
 			return;
+		} else {
+			//성공할 경우 프로그램 실행
+			if(LoginInfo.getMemberRole()==0) {
+				System.out.println("==========관리자로 로그인=========");
+				System.out.println("        영화메뉴를 실행합니다.      ");
+		
+				new MovieInfoManagement();
+			} else {
+				System.out.println("==========회원으로 로그인=========");
+				System.out.println("        영화메뉴를 실행합니다.      ");
+				
+				new MovieInfoManagement();
+			}
 		}
-		//성공할 경우 프로그램 실행
-		System.out.println("로그인 되어 영화메뉴를 실행합니다.");
-		new MovieInfoManagement();
-
+		
 	}
+	
+	//로그인 정보 입력받기
 	private Member inputId() {
 		Member member = new Member();
 		System.out.println("ID : ");
 		member.setMemberId(sc.nextLine());
 		System.out.println("PASSWORD : ");
-		member.setMemberPassword(sc.nextInt());
+		member.setMemberPassword(Integer.parseInt(sc.nextLine()));
 		return member;
 	}
-
+	
 	protected int menuSelect() {
 		int menuNo = 0;
 		try {
@@ -91,12 +122,12 @@ public class MovieMemberManagement extends Management{
 	}
 
 	private void menuPrint() {
-		System.out.println("=============================");
+		System.out.println("==============================");
 		System.out.println(" 1.로그인 | 2.회원가입 | 3.뒤로가기 ");
-		System.out.println("=============================");
+		System.out.println("==============================");
 	}
 
 	protected void showInputError() {
-		System.out.println("메뉴에서 입력해주시기 바랍니다.");
+		System.out.println("=====메뉴에서 입력해주시기 바랍니다.=====");
 	}
 }

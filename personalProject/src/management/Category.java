@@ -1,45 +1,45 @@
 package management;
 
-import java.sql.Date;
 import java.util.List;
-
-import javax.print.attribute.PrintServiceAttribute;
 
 import VO.Movie;
 
-public class Category extends Management{
+public class Category extends Management {
 	public Category() {
-		while(true) {
+		while (true) {
 			menuPrint();
 			int menuNo = menuSelect();
-			
-			if(menuNo==1) {
-				//장르별 검색
+
+			if (menuNo == 1) {
+				// 장르별 검색
 				serchJenre();
-			} else if(menuNo==2) {
-				//국가별 검색
+			} else if (menuNo == 2) {
+				// 국가별 검색
 				serchNation();
-			} else if(menuNo==9) {
-				//뒤로 가기
-				//back();
+			} else if (menuNo == 9) {
+				// 뒤로 가기
+				back();
 				break;
-			} else { 
-				//오류메세지
+			} else {
+				// 오류메세지
 				showInputError();
 			}
 		}
 	}
-	
 
+	private void back() {
+		System.out.println("이전 메뉴로 돌아갑니다.");
+	}
+
+	//국가 검색
 	private void serchNation() {
-		String nation = inputNation();
-		if(nation == null) {
-			System.out.println("국가를 찾을 수 없습니다.");
-		}
-		
-		List<Movie> list = movieDAO.serchNationInfo(nation);
-		for(Movie movie : list) {
-			System.out.print(movie);
+		List<Movie> list = movieDAO.serchNationInfo(inputNation());
+		if (list.size() == 0) {
+			System.out.println("등록되지 않은 국가입니다.");
+		} else {
+			for (Movie movie : list) {
+				System.out.print(movie);
+			}
 		}
 	}
 
@@ -48,18 +48,16 @@ public class Category extends Management{
 		return sc.nextLine();
 	}
 
-
+	//장르 검색
 	private void serchJenre() {
-		String jenre = inputJenre();
-		if(jenre == null) {
-			System.out.println("장르를 찾을 수 없습니다.");
+		List<Movie> list = movieDAO.serchCategoryInfo(inputJenre());
+		if (list.size() == 0) {
+			System.out.println("등록되지 않은 장르입니다.");
+		} else {
+			for (Movie movie : list) {
+				System.out.print(movie);
+			}
 		}
-		
-		List<Movie> list = movieDAO.serchCategoryInfo(jenre);
-		for(Movie movie : list) {
-			System.out.print(movie);
-		}
-		
 	}
 
 	private String inputJenre() {

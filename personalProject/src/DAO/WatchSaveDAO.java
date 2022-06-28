@@ -59,7 +59,6 @@ public class WatchSaveDAO extends DAO{
 			while(rs.next()) {
 				Movie movie = new Movie();
 				movie.setMovieName(rs.getString("movie_name"));
-				
 				list.add(movie.getMovieName());
 			}
 		} catch (SQLException e) {

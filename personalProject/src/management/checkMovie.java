@@ -1,6 +1,5 @@
 package management;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -37,15 +36,18 @@ public class checkMovie extends Management{
 		}
 
 	}
-
+	
+	//키워드 검색
 	private void serchKeyword() {
-		String keyword = inputKeyword();
-		
-		List<Movie> list = movieDAO.serchKeyword(keyword);
-		
-		for(Movie movie : list) {
-			System.out.println(movie);
+		List<Movie> list = movieDAO.serchKeyword(inputKeyword());
+		if(list.size()==0) {
+			System.out.println("등록된 키워드가 없습니다.");
+		} else {
+			for(Movie movie : list) {
+				System.out.println(movie);
+			}			
 		}
+		
 		
 	}
 
@@ -58,6 +60,7 @@ public class checkMovie extends Management{
 		System.out.println("이전메뉴로 돌아갑니다.");
 	}
 
+	//영화 전체 조회
 	private void showAllMovie() {
 		List<Movie> list = movieDAO.selectAll();
 		
@@ -66,12 +69,12 @@ public class checkMovie extends Management{
 		}
 	}
 	
-	
 	private String inputMovieName() {
 		System.out.println("영화 이름 : ");
 		return sc.nextLine();
 	}
 	
+	//영화 이름 조회
 	private void serchMovieName() {
 		String movieName = inputMovieName();
 		Movie movie = movieDAO.selectOne(movieName);
@@ -85,7 +88,7 @@ public class checkMovie extends Management{
 	
 	private void printMenu() {
 		System.out.println("======================================================");
-		System.out.println(" 1.영화 이름 검색 | 2. 영화 카테고리 검색 | 3. 영화 키워드 조회 ");
+		System.out.println(" 1.영화 이름 검색 | 2.영화 카테고리 검색 | 3. 영화 키워드 검색 ");
 		System.out.println("               | 4.영화 전체 조회 | 5. 뒤로가기           ");
 		System.out.println("======================================================");
 	}
