@@ -1,5 +1,7 @@
 package management;
 
+import java.util.List;
+
 import VO.Movie;
 
 public class updateMovieInfo extends Management{
@@ -33,103 +35,116 @@ public class updateMovieInfo extends Management{
 	private void back() {
 		System.out.println("이전메뉴로 돌아갑니다.");
 	}
-
+	
+	//제조국 수정
 	private void updateNation() {
+		List<Movie> list = movieDAO.selectAll();
+		for(Movie movie : list) {
+			System.out.println("--------------------------------------");
+			System.out.println("| 영화 이름 : "+movie.getMovieName());
+			System.out.println("| 영화 제조국 : "+movie.getMovieNation());
+			System.out.println("--------------------------------------");
+		}
+		
 		Movie movie = movieDAO.selectOne(inputMovieName());
 		if(movie == null) {
 			System.out.println("등록된 영화가 없습니다.");
 			return;
 		}
-		movie = inputUpdateNation(movie);
-		movieDAO.updateNation(movie);
+		
+		String newNation = inputUpdateNation();
+		movieDAO.updateNation(movie, newNation);
 	}
 
-	private Movie inputUpdateNation(Movie movie) {
-		System.out.println("영화 이름 : " + movie.getMovieName());
+	private String inputUpdateNation() {
 		System.out.println("수정할 국가 : ");
-		String nation = sc.nextLine();
-		if(!nation.equals("0")) {
-			movie.setMovieNation(nation);
-		}
-		return movie;
+		return sc.nextLine();
 	}
 
+	//영화 장르 수정
 	private void updateGenre() {
-		Movie movie = movieDAO.selectOne(inputMovieName());
-		if(movie == null) {
+		List<Movie> list = movieDAO.selectAll();
+		for(Movie movie : list) {
+			System.out.println("-------------------------------------");
+			System.out.println("| 영화 이름 : "+movie.getMovieName());
+			System.out.println("| 영화 장르 : "+movie.getMovieGenre());
+			System.out.println("-------------------------------------");
+		}
+		
+		System.out.println("영화 이름 : ");
+		Movie oldMovie = movieDAO.selectOne(sc.nextLine());
+		if(oldMovie == null) {
 			System.out.println("등록된 영화가 없습니다.");
 			return;
 		}
-		movie = inputUpdateGenre(movie);
-		movieDAO.updateGenre(movie);
+		
+		String newGenre = inputUpdateGenre();
+		movieDAO.updateGenre(oldMovie, newGenre);
 	}
 
-	private Movie inputUpdateGenre(Movie movie) {
-		System.out.println("영화 이름 : " + movie.getMovieName());
+	private String inputUpdateGenre() {
 		System.out.println("수정할 장르 : ");
-		String genre = sc.nextLine();
-		if(!genre.equals("0")) {
-			movie.setMovieGenre(genre);
-		}
-		return movie;
+		return sc.nextLine();
 	}
 
 	//영화 이름 수정
 	private void updateName() {
-		Movie movie = movieDAO.selectOne(inputMovieName());
-		if(movie == null) {
+		List<Movie> list = movieDAO.selectAll();
+		for(Movie movie : list) {
+			System.out.println("----------------------------------");
+			System.out.println("|영화 이름 : "+movie.getMovieName());
+			System.out.println("----------------------------------");
+		}
+		
+		System.out.println("수정할 영화 이름 : " );
+		
+		Movie oldMovie = movieDAO.selectOne(sc.nextLine());
+		if(oldMovie == null) {
 			System.out.println("등록된 영화가 없습니다.");
 			return;
 		}
-		movie = inputUpdateName(movie);
-		movieDAO.updateName(movie);
-	}
-
-	/************고치기************/
-	//이름 수정 입력
-	private Movie inputUpdateName(Movie movie, Movie movie2) {
-		System.out.println("영화 이름 : " + movie.getMovieName());
-		System.out.println("수정할 영화 이름 : ");
-		String name = sc.nextLine();
-		if(!name.equals("0")) {
-			movie.setMovieName(name);			
-		}
-		return movie;
+		
+		String newMovieName = inputMovieName();
+		movieDAO.updateName(oldMovie, newMovieName);
 	}
 
 
 	//영화 키워드 수정
 	private void updateKeyword() {
+		List<Movie> list = movieDAO.selectAll();
+		for(Movie movie : list) {
+			System.out.println("-----------------------------------");
+			System.out.println("| 영화 이름 : "+movie.getMovieName());
+			System.out.println("| 영화 키워드 : "+movie.getMovieKeyword());
+			System.out.println("-----------------------------------");
+		}
+		
 		// 영화 정보 검색
-		Movie movie = movieDAO.selectOne(inputMovieName());
+		System.out.println("수정할 영화 이름 : " );
+		Movie movie = movieDAO.selectOne(sc.nextLine());
 		if (movie == null) {
 			System.out.println("등록된 영화가 없습니다.");
 			return;
 		}
-		// 수정할 정보 입력 -> 기존의 정보를 넘겨주고 새로운 정보를 반환
-		movie = inputUpdateKeyword(movie);
-		// DB에 업데이트
-		movieDAO.updateKeyword(movie);
+		String newKeyWord = inputUpdateKeyword();
+		movieDAO.updateKeyword(movie, newKeyWord);
 	}
 	
-	private String inputMovieName() {
-		System.out.println("수정 할 영화 이름 : ");
+	private String inputUpdateKeyword() {
+		System.out.println("바꿀 키워드 : ");
 		return sc.nextLine();
 	}
 
-	//키워드 수정 입력
-	private Movie inputUpdateKeyword(Movie movie) {
-		System.out.println("영화 키워드 : " + movie.getMovieKeyword());
-		System.out.println("수정할 키워드 : ");
-		String key = sc.nextLine();
-		if (!key.equals("0")) {
-			movie.setMovieKeyword(key);
-		}
-		return movie;
+	private String inputMovieName() {
+		System.out.println("새로운 이름 : ");
+		return sc.nextLine();
 	}
+
 	
 	private void printMenu() {
-		System.out.println("  1.이름 수정 | 2.장르 수정 ");
-		System.out.println(" 3.국가 수정 | 4.키워드 수정 ");
+		System.out.println("=================================");
+		System.out.println(" 1.이름 수정 | 2.장르 수정 | 3.국가 수정 ");
+		System.out.println("       4.키워드 수정 | 5.뒤로 가기     ");
+		System.out.println("=================================");
 	}
 }

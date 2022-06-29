@@ -51,12 +51,12 @@ public class MovieDAO extends DAO {
 	}
 
 	// 수정
-	public void updateKeyword(Movie movie) {
+	public void updateKeyword(Movie movie, String newKey) {
 		try {
 			connect();
 			String sql = "UPDATE movies SET movie_keyword = ? WHERE movie_name = ? ";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, movie.getMovieKeyword());
+			pstmt.setString(1, newKey);
 			pstmt.setString(2, movie.getMovieName());
 
 			int result = pstmt.executeUpdate();
@@ -72,66 +72,65 @@ public class MovieDAO extends DAO {
 			disconnect();
 		}
 	}
-	
-	//국가 수정
-	public void updateNation(Movie movie) {
+
+	// 국가 수정
+	public void updateNation(Movie movie, String nation) {
 		try {
 			connect();
 			String sql = "UPDATE movies SET movie_nation = ? WHERE movie_name = ?";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, movie.getMovieNation());
+			pstmt.setString(1, nation);
 			pstmt.setString(2, movie.getMovieName());
-			
+
 			int result = pstmt.executeUpdate();
-			if(result > 0) {
+			if (result > 0) {
 				System.out.println("국가가 수정되었습니다.");
 			} else {
 				System.out.println("다시 수정해주십시오.");
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			disconnect();
 		}
 	}
-	
-	//장르 수정
-	public void updateGenre(Movie movie) {
+
+	// 장르 수정
+	public void updateGenre(Movie movie, String genre) {
 		try {
 			connect();
 			String sql = "UPDATE movies SET movie_genre = ? WHERE movie_name = ? ";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, movie.getMovieGenre());
+			pstmt.setString(1, genre);
 			pstmt.setString(2, movie.getMovieName());
-			
+
 			int result = pstmt.executeUpdate();
-			
-			if(result>0) {
+
+			if (result > 0) {
 				System.out.println("영화 장르가 수정되었습니다.");
 			} else {
 				System.out.println("다시 수정해주십시오.");
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			disconnect();
-		} 
+		}
 	}
-	
-	
-	//이름 수정
-	public void updateName(Movie movie , Movie movie2) {
+
+	// 이름 수정
+	public void updateName(Movie oldMovie, String newMovie) {
 		try {
 			connect();
 			String sql = "UPDATE movies SET movie_name = ? WHERE movie_name = ?";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(2, movie2.getMovieName());
-			pstmt.setString(1, movie.getMovieName());
-			
+			pstmt.setString(2, oldMovie.getMovieName());
+			pstmt.setString(1, newMovie);
+
 			int result = pstmt.executeUpdate();
-			if(result > 0) {
+			if (result > 0) {
 				System.out.println("영화 이름이 수정되었습니다.");
 			} else {
 				System.out.println("다시 수정해주십시오.");
@@ -228,8 +227,8 @@ public class MovieDAO extends DAO {
 		Movie movie = null;
 		try {
 			connect();
-			String sql = "SELECT movie_name, movie_date, movie_genre, movie_nation, movie_keyword FROM movies WHERE movie_name = '"
-					+ movieName + "' AND abled = 0";
+			String sql = "SELECT movie_name, movie_date, movie_genre, movie_nation, "
+					+ "movie_keyword FROM movies WHERE movie_name = '" + movieName + "' AND abled = 0";
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql);
 
@@ -276,24 +275,24 @@ public class MovieDAO extends DAO {
 		List<Movie> list = new ArrayList<>();
 		try {
 			connect();
-			String sql = "SELECT movie_name, movie_date, movie_genre, movie_nation, movie_keyword FROM movies WHERE movie_keyword LIKE '%"
-					+ movieKeyword + "%' AND abled = 0";
+			String sql = "SELECT movie_name, movie_date, movie_genre, movie_nation, movie_keyword "
+					+ "FROM movies WHERE movie_keyword LIKE '%" + movieKeyword + "%' AND abled = 0";
+			System.out.println(movieKeyword);
 
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 
-			if (rs.next()) {
-				while (rs.next()) {
-					Movie movie = new Movie();
-					movie.setMovieName(rs.getString("movie_name"));
-					movie.setMovieDate(rs.getString("movie_date"));
-					movie.setMovieGenre(rs.getString("movie_genre"));
-					movie.setMovieNation(rs.getString("movie_nation"));
-					movie.setMovieKeyword(rs.getString("movie_keyword"));
+			while (rs.next()) {
+				Movie movie = new Movie();
+				movie.setMovieName(rs.getString("movie_name"));
+				movie.setMovieDate(rs.getString("movie_date"));
+				movie.setMovieGenre(rs.getString("movie_genre"));
+				movie.setMovieNation(rs.getString("movie_nation"));
+				movie.setMovieKeyword(rs.getString("movie_keyword"));
 
-					list.add(movie);
-				}
-			} 
+				list.add(movie);
+			}
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

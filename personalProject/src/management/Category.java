@@ -67,7 +67,7 @@ public class Category extends Management {
 
 	private void menuPrint() {
 		System.out.println("======================================");
-		System.out.println(" 1.장르별 검색 | 2.국가별 검색 | 9.뒤로 가기 ");
+		System.out.println("  1.장르별 검색 | 2.국가별 검색 | 9.뒤로 가기  ");
 		System.out.println("======================================");
 	}
 }

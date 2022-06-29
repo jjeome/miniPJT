@@ -17,8 +17,12 @@ public class Movie {
 
 	@Override
 	public String toString() {
-		return "[영화 : " + movieName + ", 개봉일 : " + movieDate + ", 영화 장르 : " + movieGenre
-				+ ", 국가 : " + movieNation + "]\n";
+		return  "-----------------------------------"+"\n"
+				+"  영화 : " + movieName +"\n "
+				+" 개봉일 : " + movieDate +"\n "
+				+" 영화 장르 : " + movieGenre +"\n "
+				+" 국가 : " + movieNation + "\n"
+				+"-----------------------------------" + "\n";
 	}
 	
 }

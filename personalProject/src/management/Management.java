@@ -53,11 +53,11 @@ public class Management {
 	}
 
 	private void menuPrint() {
-		System.out.println("===========================");
-		System.out.println("       MOVIE SYSTEM        ");
-		System.out.println("===========================");
-		System.out.println(" 1.회원 관리 | 2.영화 | 9.종료 ");
-		System.out.println("===========================");
+		System.out.println("============================");
+		System.out.println("        MOVIE SYSTEM        ");
+		System.out.println("============================");
+		System.out.println("  1.회원 관리 | 2.영화 | 9.종료  ");
+		System.out.println("============================");
 	}
 	
 	

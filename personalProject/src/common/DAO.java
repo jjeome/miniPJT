@@ -12,10 +12,10 @@ import java.util.Properties;
 
 public class DAO {
 	//oracle db에 대한 정보
-	private String jdbcDriver;
-	private String oracleUrl;
-	private String connectedId;
-	private String connectedPwd;
+	private String jdbcDriver = "oracle.jdbc.driver.OracleDriver";
+	private String oracleUrl = "jdbc:oracle:thin:@localhost:1521:xe";
+	private String connectedId = "jjeome";
+	private String connectedPwd = "jjeome";
 	
 	
 	//자식클래스에서 사용할 필드(공통적으로 사용)
@@ -24,10 +24,11 @@ public class DAO {
 	protected PreparedStatement pstmt;
 	protected ResultSet rs;
 	
-	
+	/*
 	public DAO() {
 		dbConfig(); //dbConfig는 어디 놔두던지 상관x 생성자에 넣어도 됨(1번만 실행시키려면)
 	}
+	*/
 	
 	//DB에 접속하는 메소드
 	public void connect() {
@@ -35,14 +36,14 @@ public class DAO {
 			Class.forName(jdbcDriver);
 			conn = DriverManager.getConnection(oracleUrl, connectedId, connectedPwd);
 		} catch (ClassNotFoundException e){
-			System.out.println("jddbc driver 로딩 실패");
+			System.out.println("jdbc driver 로딩 실패");
 		} catch (SQLException e) {
 			System.out.println("DB 연결 실패");
 		} finally {
 			
 		}
 	}
-	
+	/*
 	//DB에 정보를 가져오는 메소드
 	private void dbConfig() {
 		String resource = "config/db.properties";
@@ -61,6 +62,7 @@ public class DAO {
 		connectedPwd =  properties.getProperty("password");
 		
 	}
+	*/
 	
 	//DB에 접속을 해제하는 메소드
 	public void disconnect() {

@@ -59,7 +59,7 @@ public class MovieInfoManagement extends Management {
 		
 		
 		if (movie == null) {
-			System.out.println("등록된 정보가 없습니다.");
+			System.out.println("-- 등록된 정보가 없거나 이미 삭제된 영화입니다.");
 			return;
 		} else {
 			// -2 영화 이름을 이용해 영화 있는지 확인하기
@@ -106,23 +106,23 @@ public class MovieInfoManagement extends Management {
 	}
 
 	protected void showInputError() {
-		System.out.println("권한이 없습니다.");
-		System.out.println("메뉴번호를 다시 입력해주시기 바랍니다.");
+		System.out.println("--------- 권한이 없습니다 ---------");
+		System.out.println("  메뉴번호를 다시 입력해주시기 바랍니다  ");
 	}
 
 	protected int selectMenu() {
 		try {
 			menuNo = Integer.parseInt(sc.nextLine());
 		} catch (NumberFormatException e) {
-			System.out.println("숫자를 입력해주시기 바랍니다.");
+			System.out.println("----- 숫자를 입력해주시기 바랍니다 -----");
 		}
 		return menuNo;
 	}
 
 	private void menuPrint() {
-		System.out.println("========================================");
-		System.out.println("  1.영화 조회 | 2.영화 시청 | 3.영화 정보 등록  ");
-		System.out.println("  4.영화 삭제 | 5.영화 정보 수정 | 9.뒤로 가기  ");
-		System.out.println("========================================");
+		System.out.println("=========================================");
+		System.out.println("   1.영화 조회 | 2.영화 시청 | 3.영화 정보 등록   ");
+		System.out.println("   4.영화 삭제 | 5.영화 정보 수정 | 9.뒤로 가기   ");
+		System.out.println("=========================================");
 	}
 }

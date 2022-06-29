@@ -8,5 +8,4 @@ import lombok.Setter;
 public class WatchSave {
 	private String memberId;
 	private String movieName;
-
 }

@@ -79,7 +79,7 @@ public class checkMovie extends Management{
 		String movieName = inputMovieName();
 		Movie movie = movieDAO.selectOne(movieName);
 		if(movie ==null) {
-			System.out.println("등록된 영화가 아닙니다.");
+			System.out.println("등록된 영화가 없습니다.");
 			return;
 		} 
 		System.out.println(movie);
@@ -87,10 +87,10 @@ public class checkMovie extends Management{
 	}
 	
 	private void printMenu() {
-		System.out.println("======================================================");
-		System.out.println(" 1.영화 이름 검색 | 2.영화 카테고리 검색 | 3. 영화 키워드 검색 ");
-		System.out.println("               | 4.영화 전체 조회 | 5. 뒤로가기           ");
-		System.out.println("======================================================");
+		System.out.println("===================================================");
+		System.out.println("  1.영화 이름 검색 | 2.영화 카테고리 검색 | 3. 영화 키워드 검색  ");
+		System.out.println("              4.영화 전체 조회 | 5. 뒤로가기              ");
+		System.out.println("===================================================");
 	}
 
 }

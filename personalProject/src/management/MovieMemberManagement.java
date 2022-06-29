@@ -64,7 +64,7 @@ public class MovieMemberManagement extends Management{
 				member.setMemberPassword(Integer.parseInt(sc.nextLine()));
 				break;	
 			} catch (NumberFormatException e) {
-				System.out.println("숫자형태로 다시 입력해 주십시오 : ");
+				System.out.println("숫자형태로 다시 입력해 주십시오");
 				continue;
 			}
 		
@@ -87,14 +87,13 @@ public class MovieMemberManagement extends Management{
 		} else {
 			//성공할 경우 프로그램 실행
 			if(LoginInfo.getMemberRole()==0) {
-				System.out.println("==========관리자로 로그인=========");
-				System.out.println("        영화메뉴를 실행합니다.      ");
-		
+				System.out.println("=============== 관리자로 로그인 ==============");
+				System.out.println("                MOVIE-MENU               ");
 				new MovieInfoManagement();
-			} else {
-				System.out.println("==========회원으로 로그인=========");
-				System.out.println("        영화메뉴를 실행합니다.      ");
 				
+			} else {
+				System.out.println("=============== 회원으로 로그인 ==============");
+				System.out.println("                MOVIE-MENU               ");
 				new MovieInfoManagement();
 			}
 		}
@@ -122,9 +121,9 @@ public class MovieMemberManagement extends Management{
 	}
 
 	private void menuPrint() {
-		System.out.println("==============================");
+		System.out.println("=============================");
 		System.out.println(" 1.로그인 | 2.회원가입 | 3.뒤로가기 ");
-		System.out.println("==============================");
+		System.out.println("=============================");
 	}
 
 	protected void showInputError() {
